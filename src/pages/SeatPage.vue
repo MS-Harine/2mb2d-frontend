@@ -50,6 +50,7 @@
 <template>
   <v-expansion-panels 
     class="pa-10"
+    style="min-width: 742px;"
     v-model="panel"
     multiple>
     <v-expansion-panel

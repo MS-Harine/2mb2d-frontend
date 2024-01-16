@@ -21,7 +21,8 @@
 
 <template>
   <v-container
-    class="border">
+    class="border"
+    style="min-width: 614px;">
     <v-row>
       <v-col class="text-left">
         <v-card 

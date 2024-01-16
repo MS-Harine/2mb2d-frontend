@@ -2,16 +2,20 @@
   "name": "2mb2d-front",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ms-harine.github.io/2mb2d-front",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "axios": "^1.6.5",
     "cheerio": "^1.0.0-rc.12",
     "core-js": "^3.8.3",
+    "gh-pages": "^6.1.1",
     "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "vue": "^3.2.13",
