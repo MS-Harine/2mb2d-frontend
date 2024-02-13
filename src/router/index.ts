@@ -1,4 +1,6 @@
 import SeatPage from "@/pages/SeatPage.vue";
+import AccountPage from "@/pages/AccountPage.vue";
+import LaunchPage from "@/pages/LaunchPage.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const router = createRouter({
@@ -7,7 +9,7 @@ const router = createRouter({
     {
       path: '/account',
       name: "account",
-      component: SeatPage
+      component: AccountPage
     },
     {
       path: '/seat',
@@ -17,7 +19,7 @@ const router = createRouter({
     {
       path: '/lunch',
       name: "lunch",
-      component: SeatPage
+      component: LaunchPage
     },
   ],
 });

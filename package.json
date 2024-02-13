@@ -2,7 +2,7 @@
   "name": "2mb2d-front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ms-harine.github.io/2mb2d-front",
+  "homepage": "https://harine.duckdns.org/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
