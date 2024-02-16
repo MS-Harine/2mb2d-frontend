@@ -8,7 +8,7 @@
     <v-layout>
       <the-side-nav-bar></the-side-nav-bar>
       <v-main
-        class="h-screen">
+        class="h-screen overflow-y-auto">
         <router-view />
       </v-main>
     </v-layout>

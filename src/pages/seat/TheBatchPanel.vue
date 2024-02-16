@@ -1,40 +1,15 @@
 <script setup lang="ts">
-  import TheSeatGui from '@/components/TheSeatGui.vue';
-  import { useSeatStore } from '@/stores/seat'
+  import SeatGui from './SeatGui.vue';
+  import { useSeatStore } from '@/stores/seat';
   import { storeToRefs } from 'pinia';
-  import { watch } from 'vue';
   import { ref } from 'vue';
 
   const userStore = useSeatStore();
-  const { users, lastUpdatedLocale } = storeToRefs(userStore);
+  const { lastUpdatedLocale } = storeToRefs(userStore);
   const disabled = ref(false);
   const alert = ref(false);
   const alertContent = ref();
   const isLoading = ref(false);
-
-  const fetchData = () => {
-    disabled.value = true;
-    isLoading.value = true;
-
-    userStore.fetchData()
-      .then(_ => {
-        alertContent.value = 'success';
-        setTimeout(() => {
-          disabled.value = false;
-        }, 60 * 1000);
-      })
-      .catch(_ => {
-        alertContent.value = 'error';
-        disabled.value = false;
-      })
-      .finally(() => {
-        alert.value = true;
-        setTimeout(() => {
-          alert.value = false;
-        }, 2000);
-        isLoading.value = false;
-      });
-  }
 
   const timeDiff = new Date().getTime() - new Date(userStore.lastUpdated ?? 0).getTime();
   if (timeDiff < 60 * 1000) {
@@ -44,16 +19,34 @@
     }, timeDiff);
   }
 
-  const panel = ref([0]);
+  const fetchData = async () => {
+    disabled.value = true;
+    isLoading.value = true;
+
+    try {
+      await userStore.fetchData();
+      alertContent.value = 'success';
+      setTimeout(() => {
+        disabled.value = false;
+      }, 60 * 1000);
+    }
+    catch {
+      alertContent.value = 'error';
+      disabled.value = false;
+    }
+    finally {
+      alert.value = true;
+      setTimeout(() => {
+        alert.value = false;
+      }, 2000);
+      isLoading.value = false;
+    }
+  }
+
 </script>
 
 <template>
-  <v-expansion-panels 
-    class="pa-10"
-    style="min-width: 742px;"
-    v-model="panel"
-    multiple>
-    <v-expansion-panel
+  <v-expansion-panel
       bg-color="surface">
       <v-expansion-panel-title>
         <template v-slot:default="{ expanded }">
@@ -97,8 +90,7 @@
             v-model="alert"
             density="compact"></v-alert>
         </div>
-        <the-seat-gui :users="userStore.usersAsGrid"></the-seat-gui>
+        <seat-gui :users="userStore.users"></seat-gui>
       </v-expansion-panel-text>
     </v-expansion-panel>
-  </v-expansion-panels>
 </template>

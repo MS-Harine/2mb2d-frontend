@@ -1,24 +1,52 @@
-import axios from "axios";
-import * as cheerio from 'cheerio';
+import * as v0 from './seatService.ver0';
+import * as v1 from './seatService.ver1';
 
-const METHOD = "http";
-const HOST = "songwonkim.shop";
+const APIVER = {
+  VER_0: 0,
+  VER_1: 1
+} as const;
+export type APIVER = typeof APIVER[keyof typeof APIVER];
 
-const Axios = axios.create({
-  baseURL: METHOD + "://" + HOST
-})
+function findAPI(apiver: APIVER) {
+  let api;
+  switch (apiver) {
+  case APIVER.VER_0:
+    api = v0;
+    break;
+  case APIVER.VER_1:
+    api = v1;
+    break;
+  }
 
-export async function fetchUsers() {
-  const page = '/seat';
-  const re = /(?:\d+). (\W+)/;
+  return api;
+}
 
-  const response = await Axios.get(page);
-  const $ = cheerio.load(response.data);
-  
-  const result = $("pre").map((_, e) => {
-    const regex = re.exec($(e).text());
-    return regex ? regex[1] : "";
-  });
+export async function fetchUsers({ apiver = APIVER.VER_1 } : { apiver?: APIVER }): Promise<Array<string>> {
+  return await findAPI(apiver).fetchUsers();
+}
 
-  return result.toArray();
+export async function batchRandom({ apiver = APIVER.VER_0 } : { apiver?: APIVER }): Promise<Array<string>> {
+  return await findAPI(apiver).batchRandom();
+}
+
+export async function batchLeader({ 
+  leaders,
+  apiver = APIVER.VER_0
+} : { 
+  leaders: Array<string>,
+  apiver?: APIVER 
+}): Promise<Array<string>> {
+  return await findAPI(apiver).batchLeader(leaders);
+}
+
+export async function confirmSeat({
+  users = [],
+  password = "",
+  apiver = APIVER.VER_0
+} : {
+  users: Array<string>,
+  password: string,
+  apiver?: APIVER
+}): Promise<Array<string>> {
+  return await findAPI(apiver).confirmSeat(users, password);
 }

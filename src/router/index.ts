@@ -1,4 +1,4 @@
-import SeatPage from "@/pages/SeatPage.vue";
+import SeatPage from "@/pages/seat/SeatPage.vue";
 import AccountPage from "@/pages/AccountPage.vue";
 import LaunchPage from "@/pages/LaunchPage.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
