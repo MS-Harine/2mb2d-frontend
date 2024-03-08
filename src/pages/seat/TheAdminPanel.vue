@@ -4,11 +4,14 @@
   import UserList from '@/components/UserList.vue';
   import SeatGui from './SeatGui.vue';
   import { ref } from 'vue';
+  import crypto from 'crypto';
 
   const seatStore = useSeatStore();
   const tempUserList = ref(seatStore.users);
   const selectedLeaders = ref([] as Array<string>);
   const disabled = ref(false);
+  const isValid = ref(true);
+  const password = ref("");
 
   const batchRandom = async () => {
     const users = await service.batchRandom({ apiver: 0 });
@@ -23,13 +26,21 @@
     tempUserList.value = users;
   }
 
+  const HASH_PASSWORD = "";
+  const checkPassword = (password: string): boolean => {
+    const hash= crypto.createHash("sha512").update(password).digest("base64");
+    if (hash == HASH_PASSWORD)
+      return true;
+    return false;
+  }
+
   const confirmSeat = async () => {
-    console.log("Check")
-    // const users = await service.confirmSeat({ 
-    //   users: tempUserList.value,
-    //   password: "",
-    //   apiver: 0 
-    // });
+    console.log("confirm");
+    const users = await service.confirmSeat({ 
+      users: tempUserList.value,
+      password: "",
+      apiver: 0 
+    });
   }
 </script>
 
@@ -62,18 +73,39 @@
               <v-card-text>
                 비밀번호를 입력하세요
               </v-card-text>
-              <v-text-field label="Password" class="w-75 align-self-center"></v-text-field>
-
+              <v-text-field 
+                label="Password" 
+                class="w-75 align-self-center"
+                type="password"
+                v-model:model-value="password">
+              </v-text-field>
+              <v-card-text 
+                v-if="!isValid"
+                class="text-red">
+                비밀번호가 틀렸습니다
+              </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-
                 <v-btn
                   text="Close"
-                  @click="isActive.value = false"
+                  @click="() => {
+                    isActive.value = false;
+                    password = '';
+                  }"
                 ></v-btn>
                 <v-btn
                   text="Confirm"
-                  @click="confirmSeat"
+                  @click="() => {
+                    if (checkPassword(password)) {
+                      isActive.value = false;
+                      password = '';
+                      isValid = true;
+                      confirmSeat();
+                    }
+                    else {
+                      isValid = false;
+                    }
+                  }"
                 ></v-btn>
               </v-card-actions>
             </v-card>

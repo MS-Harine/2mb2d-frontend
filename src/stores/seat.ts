@@ -1,4 +1,4 @@
-import { fetchUsers } from "@/service/seatService";
+import { batchCurrent } from "@/service/seatService";
 import { defineStore } from "pinia";
 import moment from 'moment';
 
@@ -23,7 +23,7 @@ export const useSeatStore = defineStore('seat', {
   },
   actions: {
     async fetchData() {
-      const newUsers = await fetchUsers({ });
+      const newUsers = await batchCurrent({ });
       this.users = newUsers;
       this.lastUpdated = new Date();
 

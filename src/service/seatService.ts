@@ -25,6 +25,10 @@ export async function fetchUsers({ apiver = APIVER.VER_1 } : { apiver?: APIVER }
   return await findAPI(apiver).fetchUsers();
 }
 
+export async function batchCurrent({ apiver = APIVER.VER_1 } : { apiver?: APIVER }): Promise<Array<string>> {
+  return await findAPI(apiver).batchCurrent();
+}
+
 export async function batchRandom({ apiver = APIVER.VER_0 } : { apiver?: APIVER }): Promise<Array<string>> {
   return await findAPI(apiver).batchRandom();
 }

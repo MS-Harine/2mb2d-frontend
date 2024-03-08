@@ -13,6 +13,10 @@ export async function fetchUsers(): Promise<Array<string>> {
   return response.data.users;
 }
 
+export async function batchCurrent(): Promise<Array<string>> {
+  return await fetchUsers();
+}
+
 export async function batchRandom(): Promise<Array<string>> {
   throw new Error('Not implemented');
 }

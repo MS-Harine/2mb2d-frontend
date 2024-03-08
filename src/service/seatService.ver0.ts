@@ -23,6 +23,13 @@ export async function fetchUsers(): Promise<Array<string>> {
   return result.toArray();
 }
 
+export async function batchCurrent(): Promise<Array<string>> {
+  const page = '/seat/now';
+  await Axios.get(page);
+  
+  return await fetchUsers();
+}
+
 export async function batchRandom(): Promise<Array<string>> {
   const page = '/random';
   await Axios.get(page);

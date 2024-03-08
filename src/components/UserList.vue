@@ -17,6 +17,7 @@
       users.push(userList.splice(0, numInRow));
     }
   }
+  console.log(users);
 </script>
 
 <template>
@@ -30,13 +31,13 @@
         :key="row">
         <v-col
           v-for="(user, col) in userRow"
-          :key="col"
-          :class="!!user ? '' : 'hidden'">
+          :key="col">
           <v-item 
             v-slot="{ isSelected, toggle }"
             :value="user">
             <v-card
               class="d-flex flex-column pt-1 pb-1 pl-2 pr-2"
+              :class="!!user ? '' : 'border-none'"
               :color="isSelected ? 'primary' : 'on-surface'"
               variant="outlined"
               @click="(arg) => {
