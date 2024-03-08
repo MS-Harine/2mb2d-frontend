@@ -5,11 +5,11 @@ const METHOD = "http";
 const HOST = "songwonkim.shop";
 
 const Axios = axios.create({
-  baseURL: METHOD + "://" + HOST
+  baseURL: METHOD + "://" + HOST + '/seat'
 });
 
 export async function fetchUsers(): Promise<Array<string>> {
-  const page = '/seat';
+  const page = '';
   const re = /(?:\d+). (\W+)/;
 
   const response = await Axios.get(page);
@@ -24,7 +24,7 @@ export async function fetchUsers(): Promise<Array<string>> {
 }
 
 export async function batchCurrent(): Promise<Array<string>> {
-  const page = '/seat/now';
+  const page = '/now';
   await Axios.get(page);
   
   return await fetchUsers();
