@@ -5,7 +5,7 @@
   import SeatGui from './SeatGui.vue';
   import { ref } from 'vue';
   import crypto from 'crypto';
-import { storeToRefs } from 'pinia';
+  import { storeToRefs } from 'pinia';
 
   const seatStore = useSeatStore();
   const { temporalUserList } = storeToRefs(seatStore);

@@ -4,7 +4,8 @@
 
   const selectedUsers = ref([] as string[]);
   const seatStore = useSeatStore();
-  const userList = seatStore.users.sort();
+  let userList = seatStore.userList.slice();
+  userList.sort();
   
   const users = [] as Array<Array<string>>;
   let numInRow = 7;
