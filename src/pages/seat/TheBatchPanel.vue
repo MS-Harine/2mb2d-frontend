@@ -5,7 +5,7 @@
   import { ref } from 'vue';
 
   const userStore = useSeatStore();
-  const { lastUpdatedLocale } = storeToRefs(userStore);
+  const { lastUpdatedLocale, userList } = storeToRefs(userStore);
   const disabled = ref(false);
   const alert = ref(false);
   const alertContent = ref();
@@ -90,7 +90,9 @@
             v-model="alert"
             density="compact"></v-alert>
         </div>
-        <seat-gui :users="userStore.users"></seat-gui>
+        <seat-gui 
+          :users="userList"
+          key="batch"></seat-gui>
       </v-expansion-panel-text>
     </v-expansion-panel>
 </template>

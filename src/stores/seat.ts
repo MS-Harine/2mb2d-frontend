@@ -4,6 +4,7 @@ import moment from 'moment';
 
 interface SeatInfo {
   users: Array<string>,
+  temporalUsers: Array<string>,
   lastUpdated: Date | null,
 }
 
@@ -13,12 +14,19 @@ export const useSeatStore = defineStore('seat', {
 
     return data ? JSON.parse(data) : {
       users: [],
+      temporalUsers: [],
       lastUpdated: null
     };
   },
   getters: {
     lastUpdatedLocale: (state): string | null => {
       return state.lastUpdated ? moment(state.lastUpdated).format("YYYY.M.D H:m:s") : null;
+    },
+    userList: (state): Array<string> => {
+      return state.users ? state.users : [];
+    },
+    temporalUserList: (state): Array<string> => {
+      return state.temporalUsers ? state.temporalUsers : [];
     }
   },
   actions: {
@@ -29,14 +37,15 @@ export const useSeatStore = defineStore('seat', {
 
       const seatInfo = {
         users: this.users,
+        temporalUsers: this.temporalUsers,
         lastUpdated: this.lastUpdated
       } as SeatInfo;
       localStorage.setItem('seatInfo', JSON.stringify(seatInfo));
 
       return newUsers;
     },
-    async confirmData() {
-      
+    async updateTemporalUsers(users: Array<string>) {
+      this.temporalUsers = users;
     }
   }
 })

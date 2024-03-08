@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
   import { defineProps } from 'vue';
 
   const props = defineProps({
@@ -41,44 +40,42 @@
 
     return grid;
   }
-
-  const userGrid = ref(usersAsGrid(props.users));
 </script>
 
 <template>
   <v-container
-      class="border"
-      style="min-width: 614px;">
-      <v-row>
-        <v-col class="text-left">
-          <v-card 
-            variant="tonal"
-            class="pl-3">문</v-card>
-        </v-col>
-        <v-col class="text-center">
-          <v-card 
-            variant="tonal">칠판</v-card>
-        </v-col>
-        <v-col class="text-right">
-          <v-card 
-            variant="tonal"
-            class="pr-3">교탁</v-card>
-        </v-col>
-      </v-row>
-      <v-row 
-        v-for="(userRow, row) in userGrid"
-        :key="row">
-        <v-col
-          v-for="(userCol, col) in userRow"
-          :key="col">
-          <v-card v-if="userCol.option >= 0"
-            class="d-flex flex-column pt-1 pb-1 pl-2 pr-2"
-            :color="colors[colorSetting[row][col]]"
-            variant="outlined">
-            <span class="text-caption text-grey">{{ userCol.option }}</span>
-            <span>{{ userCol.name }}</span>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+    class="border"
+    style="min-width: 614px;">
+    <v-row>
+      <v-col class="text-left">
+        <v-card 
+          variant="tonal"
+          class="pl-3">문</v-card>
+      </v-col>
+      <v-col class="text-center">
+        <v-card 
+          variant="tonal">칠판</v-card>
+      </v-col>
+      <v-col class="text-right">
+        <v-card 
+          variant="tonal"
+          class="pr-3">교탁</v-card>
+      </v-col>
+    </v-row>
+    <v-row 
+      v-for="(userRow, row) in usersAsGrid(props.users)"
+      :key="row">
+      <v-col
+        v-for="(userCol, col) in userRow"
+        :key="col">
+        <v-card v-if="userCol.option >= 0"
+          class="d-flex flex-column pt-1 pb-1 pl-2 pr-2"
+          :color="colors[colorSetting[row][col]]"
+          variant="outlined">
+          <span class="text-caption text-grey">{{ userCol.option }}</span>
+          <span>{{ userCol.name }}</span>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

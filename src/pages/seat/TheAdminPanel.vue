@@ -5,9 +5,10 @@
   import SeatGui from './SeatGui.vue';
   import { ref } from 'vue';
   import crypto from 'crypto';
+import { storeToRefs } from 'pinia';
 
   const seatStore = useSeatStore();
-  const tempUserList = ref(seatStore.users);
+  const { temporalUserList } = storeToRefs(seatStore);
   const selectedLeaders = ref([] as Array<string>);
   const disabled = ref(false);
   const isValid = ref(true);
@@ -15,7 +16,7 @@
 
   const batchRandom = async () => {
     const users = await service.batchRandom({ apiver: 0 });
-    tempUserList.value = users;
+    seatStore.updateTemporalUsers(users);
   }
 
   const batchLeader = async () => {
@@ -23,7 +24,7 @@
       apiver: 0,
       leaders: selectedLeaders.value
     });
-    tempUserList.value = users;
+    seatStore.updateTemporalUsers(users);
   }
 
   const HASH_PASSWORD = "PrBSGeI5882Ze5/mORN9FbALrLxPkjjPWYQKynNa2jeUVf9MSqOpx3JXXsB4C861ReVGQePpPbuOOA7dEv8D5Q==";
@@ -36,7 +37,7 @@
 
   const confirmSeat = async () => {
     const users = await service.confirmSeat({ 
-      users: tempUserList.value,
+      users: temporalUserList.value,
       password: "",
       apiver: 0 
     });
@@ -114,7 +115,9 @@
       <p>리더 설정</p>
       <user-list @leader-changed="(leaders) => selectedLeaders = leaders"></user-list>
       <p class="mt-5">임시 배치</p>
-      <seat-gui :users="tempUserList"></seat-gui>
+      <seat-gui 
+        :users="temporalUserList"
+        key="admin"></seat-gui>
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
