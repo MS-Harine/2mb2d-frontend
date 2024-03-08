@@ -17,7 +17,6 @@
       users.push(userList.splice(0, numInRow));
     }
   }
-  console.log(users);
 </script>
 
 <template>

@@ -26,7 +26,7 @@
     tempUserList.value = users;
   }
 
-  const HASH_PASSWORD = "";
+  const HASH_PASSWORD = "PrBSGeI5882Ze5/mORN9FbALrLxPkjjPWYQKynNa2jeUVf9MSqOpx3JXXsB4C861ReVGQePpPbuOOA7dEv8D5Q==";
   const checkPassword = (password: string): boolean => {
     const hash= crypto.createHash("sha512").update(password).digest("base64");
     if (hash == HASH_PASSWORD)
@@ -35,7 +35,6 @@
   }
 
   const confirmSeat = async () => {
-    console.log("confirm");
     const users = await service.confirmSeat({ 
       users: tempUserList.value,
       password: "",

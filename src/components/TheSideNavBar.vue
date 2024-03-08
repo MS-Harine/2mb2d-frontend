@@ -15,9 +15,9 @@
 
   const linkList = [
     {
-      icon: 'mdi-account',
-      title: '내 정보 확인',
-      value: 'account',
+      icon: 'mdi-github',
+      title: '개발 정보 보기',
+      value: 'development',
     },
     {
       icon: 'mdi-seat',
@@ -25,9 +25,9 @@
       value: 'seat',
     },
     {
-      icon: 'mdi-food-turkey',
-      title: '랜덤 점심조',
-      value: 'lunch',
+      icon: 'mdi-tools',
+      title: '유틸',
+      value: 'util',
     },
   ];
 </script>
