@@ -27,6 +27,9 @@ export const useSeatStore = defineStore('seat', {
     },
     temporalUserList: (state): Array<string> => {
       return state.temporalUsers ? state.temporalUsers : [];
+    },
+    numberOfUsers: (state): number => {
+      return state.users.length;
     }
   },
   actions: {

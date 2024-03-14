@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { defineProps } from 'vue';
+  import { defineProps, defineEmits } from 'vue';
 
   const props = defineProps({
     users: {
@@ -7,6 +7,10 @@
       required: true,
     }
   });
+  const emits = defineEmits<{
+    drop: [param: { event: DragEvent, index: number }]
+    maxSeatIdx: [num: number]
+  }>();
   
   const seatSetting = [
     [0, 1, null, null, 12, 13, 14],
@@ -16,6 +20,8 @@
     [8, 9, null, null, 21, 22, 23],
     [10, 11, null, null, 24, null, 25]
   ];
+  emits('maxSeatIdx', Math.max.apply(null, 
+      seatSetting.map(arr => Math.max.apply(null, arr.filter(e => e !== null) as Array<number>))))
   const colorSetting = [
     [0, 0, 0, 0, 3, 3, 3],
     [0, 0, 0, 0, 3, 3, 3],
@@ -71,7 +77,10 @@
         <v-card v-if="userCol.option >= 0"
           class="d-flex flex-column pt-1 pb-1 pl-2 pr-2"
           :color="colors[colorSetting[row][col]]"
-          variant="outlined">
+          variant="outlined"
+          @drop="(event) => $emit('drop', {event: event, index: userCol.option})"
+          @dragover.prevent
+          @dragenter.prevent>
           <span class="text-caption text-grey">{{ userCol.option }}</span>
           <span>{{ userCol.name }}</span>
         </v-card>

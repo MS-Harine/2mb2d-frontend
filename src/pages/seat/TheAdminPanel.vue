@@ -42,6 +42,23 @@
       apiver: 0 
     });
   }
+
+  const onDrag = (param: {event: DragEvent, name: string}) => {
+    if (param.event.dataTransfer) {
+      param.event.dataTransfer.dropEffect = "move";
+      param.event.dataTransfer.effectAllowed = "move";
+      param.event.dataTransfer.setData('name', param.name);
+    }
+  }
+
+  const onDrop = (param: {event: DragEvent, index: number}) => {
+    if (param.event.dataTransfer) {
+      const name = param.event.dataTransfer.getData('name');
+      const newList = temporalUserList.value.slice();
+      newList[param.index] = name;
+      seatStore.updateTemporalUsers(newList);
+    }
+  }
 </script>
 
 <template>
@@ -113,10 +130,18 @@
         </v-dialog>
       </div>
       <p>리더 설정</p>
-      <user-list @leader-changed="(leaders) => selectedLeaders = leaders"></user-list>
+      <user-list 
+        @drag="onDrag"
+        @leader-changed="(leaders) => selectedLeaders = leaders">
+      </user-list>
       <p class="mt-5">임시 배치</p>
       <seat-gui 
         :users="temporalUserList"
+        @drop="onDrop"
+        @maxSeatIdx="(num: number) => {
+          if (temporalUserList.values.length == 0)
+            seatStore.updateTemporalUsers(Array(num).fill(''));
+        }"
         key="admin"></seat-gui>
     </v-expansion-panel-text>
   </v-expansion-panel>

@@ -1,7 +1,11 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, defineEmits } from 'vue';
   import { useSeatStore } from '@/stores/seat';
 
+  const emits = defineEmits<{
+    drag: [param: { event: DragEvent, name: string }],
+    leaderChanged: [users: Array<string>]
+  }>();
   const selectedUsers = ref([] as string[]);
   const seatStore = useSeatStore();
   let userList = seatStore.userList.slice();
@@ -43,7 +47,12 @@
               @click="(arg) => {
                 toggle && toggle();
                 $emit('leaderChanged', selectedUsers);
-              }">
+              }"
+              draggable="true"
+              @dragstart="(event) => $emit('drag', {event: event, name: user})"
+              @drop="(e) => console.log(e)"
+              @dragover.prevent
+              @dragenter.prevent>
               <span :class="isSelected ? 'font-bold' : ''">{{ user }}</span>
             </v-card>
           </v-item>
