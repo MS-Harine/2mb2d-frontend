@@ -41,6 +41,10 @@
       password: "",
       apiver: 0 
     });
+    if (users.length > 0)
+      alert("배치가 완료되었습니다. 데이터를 갱신해서 확인해주세요.");
+    else
+      alert("오류가 발생했습니다.");
   }
 
   const onDrag = (param: {event: DragEvent, name: string}) => {
